@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Existing posts</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <% post.forEach(function(post) { %>
+        <%= post.text %> <%= post.name %>
+        <br>
+        <% }) %>
+  </body>
+</html>

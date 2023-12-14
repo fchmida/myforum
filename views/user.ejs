@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Existing users</title>
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Existing users</h1>
+    <% user.forEach(function(user) { %>
+        <%= user.text %> <%= user.name %>
+        <br>
+        <% }) %>
+  </body>
+</html>
