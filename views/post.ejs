@@ -5,8 +5,9 @@
     <link rel="stylesheet" type="text/css" href="/main.css" />
   </head>
   <body>
+  <h1> Existing posts</h1>
     <% post.forEach(function(post) { %>
-        <%= post.text %> <%= post.name %>
+        <%= post.text %> <%= " - "+ post.topic_name %> <%= post.user_name %>
         <br>
         <% }) %>
   </body>

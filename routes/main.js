@@ -54,6 +54,7 @@ module.exports = function (app) {
 
     // Search posts route
     app.get('/searchpost', function (req, res) {
+        let sqlquery = `SELECT * FROM vw_existingpost;`; 
         res.render('searchpost.ejs');
     });
 
@@ -89,4 +90,44 @@ module.exports = function (app) {
         res.render('newpost.ejs');
     });
 
+    app.post('/newpost', function (req,res) {
+        // saving data in database
+        let sqlquery = `SELECT user_id FROM user WHERE username =?;`; //query database to get user id
+        // execute sql query
+        db.query(sqlquery, [req.body.username], (err, result) => {
+          if (err) {
+            return console.error(err.message);
+          }
+            if(result.length==0){
+                return res.render('newpost.ejs', { body: req.body, errorMessage: "Can't find that user" });
+            }
+            user_id = result[0].user_id;
+            console.log("user is " + user_id)
+
+
+        //get topic_id from topic table
+          let sqlquery = `SELECT topic_id FROM topic WHERE name = ?;`;
+            db.query(sqlquery, [req.body.topic], (err, result) => {
+                if (err) {
+                    return console.error(err.message);
+                }
+                if(result.length==0){
+                    return res.render('newpost.ejs', { body: req.body, errorMessage: "Can't find that topic" });
+                }
+
+            topic_id = result[0].topic_id;
+            console.log("topic is " + topic_id)
+
+        let sqlquery = `INSERT INTO post (text, user_id, topic_id) VALUES (?,?,?)`
+            db.query(sqlquery, [req.body.content, user_id, topic_id], (err, result) => {
+                if (err) {
+                    return console.error(err.message);
+                }
+            else
+                res.send("New post has been added to the forum");
+            });
+        
+        });
+    });
+});
 };
