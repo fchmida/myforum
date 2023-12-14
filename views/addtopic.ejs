@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Make a new topic</title>
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Make a new topic</h1>
+    <!--when form is submitted the result will POST/display onto the newpost html page-->
+    <form action="/addtopic" method="POST">
+        <p>User name</p><input id="search-box" type="text" name="username"> 
+        <p>New Topic name</p><input id="search-box" type="text" name="text"> 
+        <input type="submit" value="Add topic">      
+    </form>
+  </body>
+</html>

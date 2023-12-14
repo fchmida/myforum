@@ -10,6 +10,109 @@ module.exports = function (app) {
         res.render('about.ejs');
     });
 
+    // Addtopic route
+    app.get('/addtopic', function (req, res) {
+    res.render('addtopic.ejs');
+    });
+
+    app.post('/addtopic', function (req,res) {
+        // saving data in database
+        let sqlquery = `SELECT user_id FROM user WHERE username =?;`; //query database to get user id
+        // execute sql query
+        db.query(sqlquery, [req.body.username], (err, result) => {
+          if (err) {
+            return console.error(err.message);
+          }
+            if(result.length==0){
+                return res.render('addtopic.ejs', { body: req.body, errorMessage: "Can't find that user" });
+            }
+            user_id = result[0].user_id;
+            console.log("user is " + user_id)
+
+        let sqlquery = `INSERT INTO topic (topic, user_id) VALUES (?,?)`
+            db.query(sqlquery, [req.body.text, user_id], (err, result) => {
+                if (err) {
+                    return console.error(err.message);
+                }
+            else
+                res.send("New topic has been added to the forum");
+            });
+        
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Membership route
+    app.get('/membership', function (req, res) {
+        res.render('membership.ejs');
+
+    
+       
+            let sqlquery = "SELECT * FROM membership WHERE ";
+            // execute sql query
+            db.query(sqlquery, (err, result) => {
+                if (err) {
+                    res.redirect('./'); 
+                }
+                let newData = Object.assign({}, shopData, {availableBooks:result});
+                console.log(newData)
+                res.render("bargainbook.ejs", newData)
+                //displays the html page for bargainbooks
+             });
+             
+        });
+        app.post('/bookadded', function (req,res) {
+            // saving data in database
+            let sqlquery = "INSERT INTO books (name, price) VALUES (?,?)";
+            // execute sql query
+            let newrecord = [req.body.name, req.body.price];
+            db.query(sqlquery, newrecord, (err, result) => {
+              if (err) {
+                return console.error(err.message);
+              }
+              else {
+                res.send(' This book is added to database, Name: '
+                          + req.body.name + ', Price: £'+ req.body.price);
+              }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
     // User route
     app.get('/user', function (req, res) {
         // Query database to get all users
@@ -85,7 +188,7 @@ module.exports = function (app) {
         });
     });
 
-    // New post route
+    // Add post route
     app.get('/newpost', function (req, res) {
         res.render('newpost.ejs');
     });
