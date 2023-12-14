@@ -15,31 +15,31 @@ module.exports = function (app) {
     res.render('addtopic.ejs');
     });
 
-    app.post('/addtopic', function (req,res) {
-        // saving data in database
-        let sqlquery = `SELECT user_id FROM user WHERE username =?;`; //query database to get user id
-        // execute sql query
+    app.post('/addtopic', function (req, res) {
+        // saving data in the database
+        let sqlquery = `SELECT user_id FROM user WHERE username = ?`; // query the database to get the user id
+        // execute SQL query
         db.query(sqlquery, [req.body.username], (err, result) => {
-          if (err) {
-            return console.error(err.message);
-          }
-            if(result.length==0){
+            if (err) {
+                return console.error(err.message);
+            }
+            if (result.length == 0) {
                 return res.render('addtopic.ejs', { body: req.body, errorMessage: "Can't find that user" });
             }
             user_id = result[0].user_id;
-            console.log("user is " + user_id)
-
-        let sqlquery = `INSERT INTO topic (topic, user_id) VALUES (?,?)`
-            db.query(sqlquery, [req.body.text, user_id], (err, result) => {
+            console.log("user is " + user_id);
+    
+            let sqlqueryInsert = `INSERT INTO topic (topic.name) VALUES (?)`;
+            db.query(sqlqueryInsert, [req.body.text], (err, result) => {
                 if (err) {
                     return console.error(err.message);
+                } else {
+                    res.send("New topic has been added to the forum");
                 }
-            else
-                res.send("New topic has been added to the forum");
             });
-        
         });
     });
+
 
 
 
@@ -63,53 +63,33 @@ module.exports = function (app) {
 
     
        
-            let sqlquery = "SELECT * FROM membership WHERE ";
-            // execute sql query
-            db.query(sqlquery, (err, result) => {
-                if (err) {
-                    res.redirect('./'); 
-                }
-                let newData = Object.assign({}, shopData, {availableBooks:result});
-                console.log(newData)
-                res.render("bargainbook.ejs", newData)
-                //displays the html page for bargainbooks
-             });
+        //     let sqlquery = "SELECT * FROM membership WHERE ";
+        //     // execute sql query
+        //     db.query(sqlquery, (err, result) => {
+        //         if (err) {
+        //             res.redirect('./'); 
+        //         }
+        //         let newData = Object.assign({}, shopData, {availableBooks:result});
+        //         console.log(newData)
+        //         res.render("bargainbook.ejs", newData)
+        //         //displays the html page for bargainbooks
+        //      });
              
-        });
-        app.post('/bookadded', function (req,res) {
-            // saving data in database
-            let sqlquery = "INSERT INTO books (name, price) VALUES (?,?)";
-            // execute sql query
-            let newrecord = [req.body.name, req.body.price];
-            db.query(sqlquery, newrecord, (err, result) => {
-              if (err) {
-                return console.error(err.message);
-              }
-              else {
-                res.send(' This book is added to database, Name: '
-                          + req.body.name + ', Price: £'+ req.body.price);
-              }
-            });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        // });
+        // app.post('/bookadded', function (req,res) {
+        //     // saving data in database
+        //     let sqlquery = "INSERT INTO books (name, price) VALUES (?,?)";
+        //     // execute sql query
+        //     let newrecord = [req.body.name, req.body.price];
+        //     db.query(sqlquery, newrecord, (err, result) => {
+        //       if (err) {
+        //         return console.error(err.message);
+        //       }
+        //       else {
+        //         res.send(' This book is added to database, Name: '
+        //                   + req.body.name + ', Price: £'+ req.body.price);
+        //       }
+        //     });
 
     });
 
