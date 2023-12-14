@@ -6,9 +6,11 @@
   </head>
   <body>
     <h1>Existing users</h1>
-    <% user.forEach(function(user) { %>
-        <%= user.text %> <%= user.name %>
+    <ul>
+      <% user.forEach(function(user) { %>
+       <li><%= user.text %> <%= user.name %></li>
         <br>
         <% }) %>
+      </ul>
   </body>
 </html>
