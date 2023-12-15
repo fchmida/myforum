@@ -2,9 +2,15 @@
 <html>
   <head>
     <title>Become a member of a topic</title>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/main.css" />
   </head>
   <body>
-    <h1>Become a member of a topic</h1>
+    <h1>Become a member of a topic to post</h1>
+    <!-- Example Form -->
+    <form action="/membership-check" method="POST">
+      <p>User name</p><input class="search-box" type="text" name="username">
+      <p>Topic name</p><input class="search-box" type="text" name="topicname">
+      <input type="submit" value="Become a member">
+    </form>
   </body>
 </html>
