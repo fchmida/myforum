@@ -1,3 +1,27 @@
+/* main.css */
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+h1, p, ul, form {
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #007BFF; /* Change the color as needed */
+}
 
 h1 {
   font-family: Arial, Helvetica, sans-serif;
@@ -8,24 +32,65 @@ h1 {
 h2 {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
-  color: cadetblue;
+  color: plum;
 }
 
-p,li {
+ul, li {
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  color: plum;
+}
+
+p, li, form {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: 17px;
+  color: palevioletred;
+}
+
+form label {
+  display: block;
+  margin-bottom: 8px;
+  margin-left: 0; /* Adjust as needed */
+}
+
+form select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 17px;
+  color: palevioletred;
+}
+
+ul, li, a:link {
+  color: palevioletred;
+  text-decoration: none;
+  padding: 5px;
 }
 
 a:link {
   color: plum;
   text-decoration: none;
-  padding:5px;
+  padding: 5px;
 }
 
 /* visited link */
 a:visited {
   color: plum;
   text-decoration: none;
-  padding:5px;
+  padding: 5px;
 }
 
 /* mouse over link */
@@ -33,12 +98,12 @@ a:hover {
   color: white;
   text-decoration: none;
   background-color: palevioletred;
-  padding:5px;
+  padding: 5px;
 }
 
 /* selected link */
 a:active {
   color: palevioletred;
   text-decoration: none;
-  padding:5px;
+  padding: 5px;
 }

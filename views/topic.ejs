@@ -1,16 +1,21 @@
-<!doctype html>
+<!-- topic-list.ejs -->
+<!DOCTYPE html>
 <html>
   <head>
-    <title>Topics listed</title>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
+    <title>Topics Listed</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
   </head>
   <body>
-    <h1>Topics listed</h1>
-      <ul>
-        <% topic.forEach(function(topic) { %> 
-          <li><%= topic.text %> <%= topic.name %></li>
-          <br>
-          <% }) %>
-      </ul>
+    <h1>Topics Listed</h1>
+    <ul>
+      <% topic.forEach(function(topic) { %> 
+        <li>
+          <a href="/topic/<%= topic.id %>">
+            <%= topic.text %> <%= topic.name %>
+          </a>
+        </li>
+        <br>
+      <% }) %>
+    </ul>
   </body>
 </html>

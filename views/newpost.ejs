@@ -1,24 +1,30 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Make a new post</title>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
-  </head>
-  <body>
-    <h1>Make a new post</h1>
-    <!--when form is submitted the result will POST/display onto the newpost html page-->
-    <form action="/newpost" method="POST">
-      <p>Add a new post</p>
-      <p>User name</p><input id="search-box" type="text" name="username"> 
-      <!-- <p>Topic name</p><input id="search-box" type="text" name="topic">  -->
-      <label for="topic">Select a Topic:</label>
-      <select name="topic" id="topic">
-        <option value="Books">Books</option>
-        <option value="Food">Food</option>
-      </select>
+<!-- newpost.ejs -->
 
-      <p>Post content</p><input id="search-box" type="text" name="content"> 
-    <input type="submit" value="Add post" > <!--once the button is pressed the data will be added onto the newpost.ejs page-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Make a new post</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body>
+    <h1>Make a new post</h1>
+    <!-- When the form is submitted, the result will POST/display onto the newpost HTML page -->
+    <form action="/newpost" method="POST">
+        <p>User name</p>
+        <input id="search-box" type="text" name="username">
+
+        <label for="topic">Select a Topic:</label>
+        <select name="topic" id="topic">
+            <% topics.forEach(function(topic) { %>
+                <option value="<%= topic.name %>"><%= topic.name %></option>
+            <% }) %>
+        </select>
+
+        <p>Post content</p>
+        <input id="search-box" type="text" name="content">
+
+        <input type="submit" value="Add post">
+        <!-- Once the button is pressed, the data will be added onto the newpost.ejs page -->
     </form>
-  </body>
+</body>
 </html>
