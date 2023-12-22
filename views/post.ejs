@@ -9,9 +9,7 @@
     <h1>Posts</h1>
     <% post.forEach(function(post) { %>
       <p>
-        <a href="/post/<%= post.id %>">
-          <%= post.text %> - <%= post.topic_name %> - <%= post.user_name %>
-        </a>
+          <%= post.text %> - <%= post.topic_name %> <%= post.user_name %>
       </p>
       <br>
     <% }) %>

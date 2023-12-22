@@ -121,39 +121,21 @@ module.exports = function (app) {
             res.render('user.ejs', { user: userResult });
         });
     });
-// User route
-app.get('/user/:userId', function (req, res) {
-    const userId = req.params.userId;
 
-    // Query database to get user details
-    let sqlQuerySelectUser = `SELECT * FROM myforum.user WHERE id = ?;`;
-
-    // Execute SQL query to get user details
-    db.query(sqlQuerySelectUser, [userId], (err, userResult) => {
-        if (err || userResult.length === 0) {
-            // Handle errors or redirect to an error page
-            res.redirect('./');
-            return;
-        }
-
-        // Query database to get posts for the user
-        let sqlQuerySelectPost = `SELECT * FROM myforum.post WHERE user_id = ?;`;
-
-        // Execute SQL query to get posts
-        db.query(sqlQuerySelectPost, [userId], (err, postResult) => {
+    app.get('/user/:userId', function (req, res) {
+        let userId = req.params.userId;
+        let sqlQuery = `SELECT * FROM post WHERE user_id = ?`;
+    
+        db.query(sqlQuery, [userId], (err, posts) => {
             if (err) {
-                // Handle errors or redirect to an error page
-                res.redirect('./');
-                return;
+                console.log(err);
+                res.send("Error fetching posts for the specified user.");
+            } else {
+                res.render('postsForUser.ejs', { posts: posts });
             }
-
-            // Render the user.ejs file with user details and posts
-            res.render('user.ejs', { user: userResult, post: postResult });
         });
     });
-});
-
-
+    
      // Topic route
      app.get('/topic', function (req, res) {
         // Query database to get all topics
@@ -165,6 +147,21 @@ app.get('/user/:userId', function (req, res) {
                 res.redirect('./');
             }
             res.render('topic.ejs', { topic: topicResult });
+        });
+    });
+
+
+     app.get('/topic/:topicId', function (req, res) {
+        let topicId = req.params.topicId; // the topic id which is in url is used to find posts under that topic within posts table
+        let sqlQuery = `SELECT * FROM post where topic_id = ?`;
+        
+        db.query(sqlQuery, [topicId], (err, posts) => {
+            if (err) {
+                console.log(err);
+                res.send("Error fetching posts for the specified topic.");
+            } else {
+                res.render('topicsForUser.ejs', {posts: posts});
+            }
         });
     });
 
@@ -184,8 +181,34 @@ app.get('/user/:userId', function (req, res) {
 
     // Search posts route
     app.get('/searchpost', function (req, res) {
-        let sqlquerySelectAllExistingPosts = `SELECT * FROM vw_existingpost;`;
         res.render('searchpost.ejs');
+    });
+
+    // Search result route
+    app.get('/search-result', function (req, res) {
+        const keyword = req.query.keyword;
+        if (!keyword) {
+            res.send("Please provide a search keyword.");
+        }
+
+        let sqlquery = `SELECT * FROM vw_searchpost WHERE topic_name LIKE ?`;
+
+        db.query(sqlquery, [`%${keyword}%`], (err, result) => {
+            if (err) {
+                return console.error(err.message);
+            }
+
+            if (result.length === 0) {
+                res.send("Cannot find the post you are looking for.");
+            }
+
+            let response = 'You have searched for: ' + keyword + '. Currently Found:';
+            result.forEach((post) => {
+                response += ` ${post.text}.`;
+            });
+
+            res.send(response);
+        });
     });
 
     // Register route
@@ -219,7 +242,6 @@ app.get('/newpost', function (req, res) {
             res.redirect('./'); // Redirect to the home page or handle the error
             return;
         }
-
         res.render('newpost.ejs', { topics: topicResult });
     });
 });

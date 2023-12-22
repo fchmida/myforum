@@ -10,7 +10,7 @@
     <ul>
       <% topic.forEach(function(topic) { %> 
         <li>
-          <a href="/topic/<%= topic.id %>">
+            <a href="/topic/<%= topic.id %><%= topic.name %>">
             <%= topic.text %> <%= topic.name %>
           </a>
         </li>
